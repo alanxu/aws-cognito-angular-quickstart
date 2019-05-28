@@ -1,0 +1,48 @@
+1. (Login to priappvmgtaajb1 with svc_gtaa_prod)
+2. cd ~/OAuth2
+3. wget https://artifactory.cppib.ca/artifactory/cppib-pasgtaa/cppib/sso-authserver/0.0.6/sso-authserver-0.0.6.jar
+4. rm authserver.jar
+5. ln -s sso-authserver-0.0.6.jar authserver.jar
+
+
+
+
+1. (Login to priappvmgtaajb1 with svc_gtaa_prod)
+2. cd ~/OAuth2
+3. wget https://artifactory.cppib.ca/artifactory/cppib-pasgtaa/cppib/sso-authserver/0.0.5/sso-authserver-0.0.5.jar
+4. rm authserver.jar
+5. ln -s sso-authserver-0.0.5.jar authserver.jar
+
+
+
+
+
+cognito-identity create-identity-pool --identity-pool-name aws-cognito-quickstart-alan-xu-2 --allow-unauthenticated-identities --region us-east-2| grep IdentityPoolId | awk '{print $2}' | xargs |sed -e 's/^"//'  -e 's/"$//' -e 's/,$//' > /tmp/poolId
+
+
+
+aws iam update-assume-role-policy --role-name aws-cognito-quickstart-alan-xu-unauthenticated-role --policy-document file:///tmp/unauthrole-trust-policy.json
+
+
+
+
+
+aws iam put-role-policy --role-name aws-cognito-quickstart-alan-xu-unauthenticated-role --policy-name CognitoPolicy --policy-document file:///Volumes/Work/aws-cognito-angular-quickstart/aws/unauthrole.json
+
+
+
+aws cognito-identity update-identity-pool --allow-unauthenticated-identities --identity-pool-id us-east-2:ba3647bf-286a-4cb2-bfe1-0865bb3d1c6a --identity-pool-name AwsCognitoQuickstartAlanXu \
+        --cognito-identity-providers ProviderName=cognito-idp.us-east-2.amazonaws.com/us-east-2_BmrOQgKiH,ClientId=1mr8f93qieg6tkrk7hu8vvadoe --region us-east-2
+
+
+
+us-east-2:ba3647bf-286a-4cb2-bfe1-0865bb3d1c6a
+
+
+
+aws iam create-role --role-name aws-cognito-quickstart-alan-xu-authenticated-role --assume-role-policy-document file:///tmp/authrole-trust-policy.json > /tmp/iamAuthRole
+
+aws iam update-assume-role-policy --role-name aws-cognito-quickstart-alan-xu-authenticated-role --policy-document file:///tmp/authrole-trust-policy.json
+
+aws iam put-role-policy --role-name aws-cognito-quickstart-alan-xu-authenticated-role --policy-name CognitoPolicy --policy-document file:///tmp/authrole.json
+
